@@ -6,7 +6,7 @@ import { fetchQuizQuestions } from './API'
 import { Difficulty , QuestionState} from './API'
 
 
-type AnswerObject = {
+export type AnswerObject = {
   question: string
   answer: string
   correct: boolean
@@ -22,22 +22,22 @@ const App: React.FC = () => {
   const [score, setScore] = useState(0)
   const [gameOver, setGameOver] = useState(true)
 
-  // console.log(fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY))
-  console.log(questions)
-
+  // console.log(questions)
+  
   const startTrivia = async () => {
     setLoading(true)
     setGameOver(false)
-
+    
     const newQuestions = await fetchQuizQuestions(
       TOTAL_QUESTIONS,
       Difficulty.EASY
     )
-    setQuestions(newQuestions)
     setScore(0)
     setUserAnswers([])
     setNumber(0)
+    // console.log(newQuestions)
     setLoading(false)
+    setQuestions(newQuestions)
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -48,6 +48,7 @@ const App: React.FC = () => {
 
   }
 
+  console.log(questions)
   return (
     <div className="App">
       <h1>REACT QUIZ</h1>
@@ -60,7 +61,7 @@ const App: React.FC = () => {
       ) : null}
       {!gameOver ? <p className="score" >Score: </p> : null}
       {loading && <p>Loading Questions...</p>}
-      {!loading && !gameOver && (
+      {!loading && !gameOver && questions.length && (
         <QuestionCard
           questionNr={number + 1}
           totalQuestions={TOTAL_QUESTIONS}
@@ -69,12 +70,14 @@ const App: React.FC = () => {
           userAnswer={userAnswers ? userAnswers[number] : undefined}
           callback={checkAnswer}
           />
-      )}
-      <button
-        className="next"
-        onClick={nextQuestion}>
-          Nex Question
-      </button>
+          )}
+      {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 &&
+        <button
+          className="next"
+          onClick={nextQuestion}>
+            Next Question
+        </button>
+      }
     </div>
   )
 }
