@@ -1,6 +1,8 @@
+import { Button, ButtonGroup } from '@material-ui/core';
 import React from 'react';
 // Types
 import { AnswerObject } from '../App';
+import { StyledButtonGroup, StyledQuestion } from './questionCard.style';
 // Styles
 // import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
 
@@ -26,19 +28,25 @@ const QuestionCard: React.FC<Props> = ({
       Question: {questionNr} / {totalQuestions}
     </p>
     <p dangerouslySetInnerHTML={{ __html: question }} />
-    <div>
+    <StyledQuestion>
       {answers.map((answer) => (
-        <div
+        <StyledButtonGroup
+          variant="contained"
+          color="primary"
+          aria-label="outlined primary button group"
           key={answer}
           // correct={userAnswer?.correctAnswer === answer}
           // userClicked={userAnswer?.answer === answer}
         >
-          <button disabled={userAnswer ? true : false} value={answer} onClick={callback}>
+          <Button
+            disabled={userAnswer ? true : false}
+            value={answer}
+            onClick={callback}>
             <span dangerouslySetInnerHTML={{ __html: answer }} />
-          </button>
-        </div>
+          </Button>
+        </StyledButtonGroup>
       ))}
-    </div>
+    </StyledQuestion>
   </div>
 );
 
