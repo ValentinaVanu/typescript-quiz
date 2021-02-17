@@ -8,6 +8,7 @@ export const ReactTitle = styled.h1`
   grid-row: 1/2;
   align-self: center;
   justify-self: center;
+  color: #fff;
 `
 
 export const StyledCard = styled(Paper)`
